@@ -1,9 +1,13 @@
 body {
   padding-top: 50px;
 }
-.starter-template {
+.header {
   padding: 40px 15px;
   text-align: center;
+}
+
+.buttons {
+	text-align: center;
 }
 
 #cy {
