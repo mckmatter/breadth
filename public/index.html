@@ -20,7 +20,7 @@
     <!-- Custom styles for this template -->
     <link href="style.css" rel="stylesheet">
 
-    <script src="../../js/cytoscape.min.js"></script>
+    <script src="../../js/cytoscape.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -73,7 +73,43 @@
         </div>
       </div>
 
-      <div class="content"></div>
+      <div class="row content">
+
+        <div class="col-sm-1 col-sm-offset-2">
+          <div class="border">
+            <h3>Queue</h3>
+            <table class="table">
+              <tbody class="queue">
+                <!-- JQuery Appends Table Rows for Queue Items Here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-sm-2 col-sm-offset-1">
+          <div class="border">
+            <h3>Visited Array</h3>
+            <table class="table">
+              <tr>
+                <th>Node</th>
+                <th>Visited</th>
+              </tr>
+              <tbody class="visited">
+                <!-- JQuery Appends Table Rows Here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-sm-5">
+
+              <div id="cy"></div>
+
+
+        </div>
+        
+      </div>
+
 
 
      
@@ -89,8 +125,8 @@
 
    <script src="../../dist/js/bootstrap.min.js"></script>
    
+  <script type="text/javascript" src="code.js"></script>
 
-
-<script type="text/javascript" src="main.js"></script>
+  <script type="text/javascript" src="main.js"></script>
   </body>
 </html>

@@ -1,8 +1,12 @@
 $(document).ready(function() {
 	console.log('document ready');
-	writeGraph(1);
+	
 
 
+
+
+	//writeGraph(1);
+	/*
 	function writeGraph(id) {
 		console.log("writeGraph");
 
@@ -21,5 +25,6 @@ $(document).ready(function() {
 		})
 
 	}
+	*/
 
 })
