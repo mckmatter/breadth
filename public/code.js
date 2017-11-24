@@ -16,30 +16,24 @@ $(document).ready(function() {
   //Global object for cytoscape graph
   var cy = {};
 
-  //Global object for graph object
-  var graph = {};
-
-  //Global array for queue
-  var q = [];
-
-  //Global array for visited
-  var v = [];
-
   //Graph 1 Click Function
   $("#graph1").on("click", function() {
     $("#cy").empty();
     graph1();
     this.blur();
-    graph = cy.json();
-    startBFS(graph);
+    var graph = cy.json();
+    prepBFS(graph);
   })//End Graph 1 Click
 
   //Graph 2 Click Function
   $("#graph2").on("click", function() {
     $("#cy").empty();
+    graph1();
     this.blur();
-    graph = cy.json();
-    startBFS(graph);
+
+    var graph = cy.json();
+    //prepBFS();
+    console.log(graph);
   })//End Graph 2 Click
 
 
@@ -109,13 +103,10 @@ $(document).ready(function() {
     });  
   }//End Initialize Graph 1
 
-  //Breadth First Search Function
-  function startBFS(graph) {
+  function prepBFS(graph) {
 
-    console.log(graph);
-
-    //cy.getElementById('a').addClass('highlighted');
-
+    var v = [];
+    var q = [];
 
     //Create Visited Array and set all to False
     var i, n = graph.elements.nodes.length;
@@ -123,73 +114,109 @@ $(document).ready(function() {
       console.log("i: " + i);
       v[i] = [graph.elements.nodes[i].data.id, false];
     };//End Create Visited Array
-    console.log(v);
+    console.log("Created Visited Array");
 
     //Show Visited Array
     renderVisited(v);
 
-    //Push the first element into the queue
-    q.push(graph.elements.nodes[0])
 
-    //While there is something in the queue
-    while(q.length>0) {
+    //Push the first element into the queue
+    q.push(graph.elements.nodes[0]);
+    renderQueue(q);
+    console.log("Push First Node: " + graph.elements.nodes[0].data.id);
+
+    console.log("prepBFS > runBFS");
+
+    runBFS(graph, q, v);
+
+  }
+
+  //Breadth First Search Function
+  function runBFS(graph, q, v) {
+
+    var incrementBFS = function() {
 
       //Remove and Return the first node in the queue
+      console.log(q);
       var currentNode = q.shift();
+      renderQueue(q);
+      console.log("q.shift: " + currentNode.data.id);
+
       //Set the currentNode as Visited
-      setVisited(currentNode.data.id)
-      renderVisited();
+      v = setVisited(currentNode.data.id, v)
+      //console.log("");
+
+      //Display the Visitor array on the page
+      renderVisited(v);
+
+      //Highlight the current node
       cy.getElementById(currentNode.data.id).addClass('highlighted');
 
-      //Highlight the current Node
-      //currentNode.addClass('highlighted');
 
       //Get edges where the source = currentNode
       var i, n = graph.elements.edges.length;
       for(i=0; i<n; ++i) {
-        if(graph.elements.edges[i].data.source == currentNode.data.id){
-          console.log("source=currentNode");
+        var currentEdge = graph.elements.edges[i];
+        if(currentEdge.data.source == currentNode.data.id){
+          console.log("source=currentNode: " + currentEdge.data.source);
+          var currentTarget = graph.elements.edges[i].data.target;
+          //console.log(currentTarget);
           //Check to see if the target has been visited
           //If it has not, add it to the queue
-          if(!getVisited(graph.elements.edges[i].data.target)){
-            console.log("addNode");
-            addNode(graph.elements.edges[i].data.target);
+          if(!getVisited(currentTarget, v)){
+            console.log("addNode: " + currentTarget);
+            q = addNode(graph, currentTarget, q);
           }
         }
       }//End Edge Loop
 
-    }//End While
+      if(q.length!=0) {
+        console.log(q.length);
+        setTimeout(incrementBFS, 2000);
+      }
 
-  }//End startBFS
+    }//End incrementBFS
+
+    //Kick Off First Increment
+    setTimeout(incrementBFS, 1000);   
+
+  }//End runBFS
+
+  
 
   //Helper Function for adding Node Object to queue by id
-  function addNode(id) {
+  function addNode(graph, id, q) {
+    //console.log("addNode");
     var i, n = graph.elements.nodes.length;
     for(i=0; i<n; ++i){
       if(graph.elements.nodes[i].data.id==id) {
-        q.push(graph.elements.nodes[i])
+        q.push(graph.elements.nodes[i]);
       }
     }
+    renderQueue(q);
+    return q;
   }//End addNode
 
   //Helper Function for setting a node
   //as visited in the visited array
-  function setVisited(id) {
+  function setVisited(id, v) {
     var i, n = v.length;
     for(i=0; i<n; ++i) {
       if(v[i][0]==id) {
         v[i][1]=true;
       }
     }
+
+    return v;
   }//End setVisited
 
   //Check to see if Node is visited
-  function getVisited(id) {
-    console.log("getVisited");
+  function getVisited(id, v) {
+    //console.log("getVisited");
     var i, n = v.length;
     for(i=0; i<n; ++i) {
       if(v[i][0]==id) {
-         console.log("getVisited-nodeMatch ")
+         //console.log("getVisited-nodeMatch ")
         return v[i][1];
       }
     }
@@ -197,23 +224,32 @@ $(document).ready(function() {
   }//End getVisited
 
   //Append Visited Table to DOM
-  function renderVisited() {
+  function renderVisited(v) {
     var html = "<tr>"
 
-    for(var i = 0; i<v.length; ++i) {
+    for(var i=0; i<v.length; ++i) {
       html+="<tr><td>";
       html+=v[i][0];
       html+="</td><td>"
       html+=v[i][1];
       html+="</td></tr>";
     }
-    console.log(html);
+    //console.log(html);
     $("tbody.visited").empty();
     $("tbody.visited").append(html);
   }//End renderVisited
 
   //Append Queue Table to DOM
-  function renderQueue() {
+  function renderQueue(q) {
+
+    var html = "<tr>"
+
+    for(var i=0; i<q.length; ++i) {
+      html+="<tr><td>" + q[i].data.id + "</td></tr>"
+    }
+
+    $("tbody.queue").empty();
+    $("tbody.queue").append(html);
 
   }//End renderQueue
 

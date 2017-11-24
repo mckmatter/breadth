@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Breadth First Search Algorithm Visualization">
+    <meta name="author" content="Dylan McKenna and Fawaz Albetar">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>BFS Visualization</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,17 +17,14 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    <!-- Custom styles for this page -->
     <link href="style.css" rel="stylesheet">
 
+    <!-- Get cytoscape ready -->
     <script src="../../js/cytoscape.js"></script>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
+
 
   <body>
 
@@ -50,9 +47,10 @@
       </div>
     </nav>
 
+    <!-- Bootstrap Container -->
     <div class="container-fluid">
 
-
+      <<!-- Row 1 - Header -->
       <div class="row header">
         <div class="col-md-12">
           <h1>Breadth First Search Visualization</h1>
@@ -61,7 +59,7 @@
       </div>
 
   
-
+      <!-- Row 2 - Buttons -->
       <div class="row buttons">
         <div class="col-md-2 col-md-offset-4">
           <button type="button" class="btn btn-primary" id="graph1">Graph 1</button>
@@ -71,19 +69,23 @@
         </div>
       </div>
 
+      <!-- Row 3 - Main Content -->
       <div class="row content">
-
-        <div class="col-sm-1 col-sm-offset-2">
+        <!-- Queue Array Column -->
+        <div class="col-sm-2 col-sm-offset-1">
           <div class="border">
-            <h3>Queue</h3>
+            <h3>Queue Array</h3>
             <table class="table">
+              <tr>
+                <th>Queue</th>
+              </tr>
               <tbody class="queue">
                 <!-- JQuery Appends Table Rows for Queue Items Here -->
               </tbody>
             </table>
           </div>
         </div>
-
+        <!-- Visited Array Column -->
         <div class="col-sm-2 col-sm-offset-1">
           <div class="border">
             <h3>Visited Array</h3>
@@ -98,19 +100,11 @@
             </table>
           </div>
         </div>
-
+        <!-- Graph Column -->
         <div class="col-sm-5">
-
-              <div id="cy"></div>
-
-
+          <div id="cy"></div>
         </div>
-        
       </div>
-
-
-
-     
 
     </div><!-- /.container -->
 
@@ -125,6 +119,5 @@
    
   <script type="text/javascript" src="code.js"></script>
 
-  <script type="text/javascript" src="main.js"></script>
   </body>
 </html>
