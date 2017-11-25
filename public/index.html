@@ -50,7 +50,7 @@
     <!-- Bootstrap Container -->
     <div class="container-fluid">
 
-      <<!-- Row 1 - Header -->
+      <!-- Row 1 - Header -->
       <div class="row header">
         <div class="col-md-12">
           <h1>Breadth First Search Visualization</h1>
@@ -59,13 +59,28 @@
       </div>
 
   
-      <!-- Row 2 - Buttons -->
+      <!-- Row 2 - Input and Path -->
       <div class="row buttons">
-        <div class="col-md-2 col-md-offset-4">
+        <div class="col-md-2">
           <button type="button" class="btn btn-primary" id="graph1">Graph 1</button>
         </div>
         <div class="col-md-2">
           <button type="button" class="btn btn-primary" id="graph2">Graph 2</button>
+        </div>
+        <div class="col-md-2">
+          <p>Start Node:</p>
+          <select class="startSelect"></select>
+        </div>
+        <div class="col-md-2">
+          <p>End Node:</p>
+          <select class="endSelect"></select>
+        </div>
+        <div class="col-md-2">
+          <p>Path:</p>
+          <p class="path"></p>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-danger" id="start">Start BFS</button>
         </div>
       </div>
 
@@ -93,6 +108,7 @@
               <tr>
                 <th>Node</th>
                 <th>Visited</th>
+                <th>Order</th>
               </tr>
               <tbody class="visited">
                 <!-- JQuery Appends Table Rows Here -->
@@ -117,7 +133,8 @@
 
    <script src="../../dist/js/bootstrap.min.js"></script>
    
-  <script type="text/javascript" src="code.js"></script>
+  <script type="text/javascript" src="graph.js"></script>
+  <script type="text/javascript" src="main.js"></script>
 
   </body>
 </html>
