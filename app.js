@@ -24,9 +24,6 @@ app.set('views', __dirname + '/views')
 //Setup Route to public
 app.use(express.static('public'))
 
-//Setup Routes to everything after /
-app.use(require('./controllers'))
-
 //Start Server
 var port = 3000
 app.listen(port, function() {
