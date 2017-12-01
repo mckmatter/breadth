@@ -1,7 +1,6 @@
 
-function Graph(graphID){
-	//Variable for graphID
-	this.graphID = graphID;
+function Graph(){
+
 	this.startNodeID = null;
 	this.endNodeID = null;
 	this.orderVisited = 1;
@@ -22,136 +21,21 @@ function Graph(graphID){
 	this.cy = {};
 
 	//Graphs array to store unrendered graph objects
-	this.graphs = [];
-
-	this.graphs[0] = {
+	this.initialOptions = {
 
 		container: document.getElementById('cy'),
-
     	boxSelectionEnabled: false,
     	autounselectify: true,
     	zoomingEnabled: true,
 	    userZoomingEnabled: false,
 	    panningEnabled: true,
-	    userPanningEnabled: false,
+	    userPanningEnabled: false
 
-    	style: cytoscape.stylesheet()
-	        .selector('node')
-	          .css({
-	            'content': 'data(id)'
-	          })
-	        .selector('edge')
-	          .css({
-	            'curve-style': 'bezier',
-	            'target-arrow-shape': 'triangle',
-	            'width': 4,
-	            'line-color': '#ddd',
-	            'target-arrow-color': '#ddd'
-	          })
-	        .selector('.highlighted')
-	          .css({
-	            'background-color': '#61bffc',
-	            'line-color': '#61bffc',
-	            'target-arrow-color': '#61bffc',
-	            'transition-property': 'background-color, line-color, target-arrow-color',
-	            'transition-duration': '0.5s'
-        }),
-
-    	elements: {
-          nodes: [
-            { data: { id: 'a' } },
-            { data: { id: 'b' } },
-            { data: { id: 'c' } },
-            { data: { id: 'd' } },
-            { data: { id: 'e' } }
-          ],
-
-          edges: [
-            { data: { id: 'a"e', weight: 1, source: 'a', target: 'e' } },
-            { data: { id: 'ab', weight: 3, source: 'a', target: 'b' } },
-            { data: { id: 'be', weight: 4, source: 'b', target: 'e' } },
-            { data: { id: 'bc', weight: 5, source: 'b', target: 'c' } },
-            { data: { id: 'ce', weight: 6, source: 'c', target: 'e' } },
-            { data: { id: 'cd', weight: 2, source: 'c', target: 'd' } },
-            { data: { id: 'de', weight: 7, source: 'd', target: 'e' } }
-          ]
-        },
-
-
-    	layout: {
-	        name: 'breadthfirst',
-	        directed: true,
-	        roots: '#a',
-	        padding: 10
-      	}
-	}//End graphs[0] Object definition
-
-	this.graphs[1] = {
-
-		container: document.getElementById('cy'),
-
-    	boxSelectionEnabled: false,
-    	autounselectify: true,
-    	zoomingEnabled: true,
-	    userZoomingEnabled: false,
-	    panningEnabled: true,
-	    userPanningEnabled: false,
-
-    	style: cytoscape.stylesheet()
-	        .selector('node')
-	          .css({
-	            'content': 'data(id)'
-	          })
-	        .selector('edge')
-	          .css({
-	            'curve-style': 'bezier',
-	            'target-arrow-shape': 'triangle',
-	            'width': 4,
-	            'line-color': '#ddd',
-	            'target-arrow-color': '#ddd'
-	          })
-	        .selector('.highlighted')
-	          .css({
-	            'background-color': '#61bffc',
-	            'line-color': '#61bffc',
-	            'target-arrow-color': '#61bffc',
-	            'transition-property': 'background-color, line-color, target-arrow-color',
-	            'transition-duration': '0.5s'
-        }),
-
-    	elements: {
-          nodes: [
-            { data: { id: 'a' } },
-            { data: { id: 'b' } },
-            { data: { id: 'c' } },
-            { data: { id: 'd' } },
-            { data: { id: 'e' } },
-            { data: { id: 'f' } }
-          ],
-
-          edges: [
-            { data: { id: 'a"e', weight: 1, source: 'a', target: 'e' } },
-            { data: { id: 'ab', weight: 3, source: 'a', target: 'b' } },
-            { data: { id: 'be', weight: 4, source: 'b', target: 'e' } },
-            { data: { id: 'bc', weight: 5, source: 'b', target: 'c' } },
-            { data: { id: 'ce', weight: 6, source: 'c', target: 'e' } },
-            { data: { id: 'cd', weight: 2, source: 'c', target: 'd' } },
-            { data: { id: 'de', weight: 7, source: 'd', target: 'e' } },
-            { data: { id: 'ef', weight: 8, source: 'e', target: 'f' } }
-          ]
-        },
-
-
-    	layout: {
-	        name: 'breadthfirst',
-	        directed: true,
-	        roots: '#a',
-	        padding: 10
-      	}
-	}//End graphs[1] Object definition
+	};
 
 }//End Graph Class Definition
 
+//Set Start and End Node Functions
 Graph.prototype.setStartNode = function(passStartNodeID) {
 	this.startNodeID = passStartNodeID;
 }
@@ -160,6 +44,7 @@ Graph.prototype.setEndNode = function(passEndNodeID) {
 	this.endNodeID = passEndNodeID;
 }
 
+//Setup and Start BFS -> Calls incrementBFS
 Graph.prototype.startBFS = function() {
 	
 	//Setup BFS with loop through nodes array
@@ -193,12 +78,14 @@ Graph.prototype.startBFS = function() {
 
 Graph.prototype.incrementBFS = function(parent) {
 
+	//Save the algorithm function as a variable for setTimeout
 	var increment = function() {
-		console.log("Incrementing BFS...");
-		console.log(parent.q);
+
+		var done = false;
 
 		//Pop the first node from the queue and render the queue
 		parent.currentNode = parent.q.shift();
+		console.log("Popping Node: " + parent.currentNode.data.id);
 		parent.renderQueue();
 
 		//Set the currentNode as Visited
@@ -210,7 +97,9 @@ Graph.prototype.incrementBFS = function(parent) {
 
 		//if the currentNode is endNode - we're done - calculate path
 		if(parent.currentNode.data.id == parent.endNodeID) {
+			console.log("CurrentNode=EndNode");
 			parent.renderPath();
+			done=true;
 		}
 		//else - add children of currentNode to queue
 		else {
@@ -232,6 +121,7 @@ Graph.prototype.incrementBFS = function(parent) {
 						parent.renderQueue();
 					}
 				}
+
 			}//End edges loop
 		}//End else
 
@@ -239,8 +129,19 @@ Graph.prototype.incrementBFS = function(parent) {
 		if(parent.q.length!=0 && parent.found==false) {
 			setTimeout(increment, 2000);
 		}
+		//else - Done or No Path
+		else {
+			if(done){
+				console.log("DONE=TRUE");
+			}
+			else {
+				console.log("DONE=FALSE");
+				parent.noPath();
+			}
+		}
 	}//End increment
 
+	//Kickoff First Increment after 1 second
 	setTimeout(increment, 1000);
 
 }//End incrementBFS
@@ -266,11 +167,9 @@ Graph.prototype.setVisited = function() {
 }//End setVisited
 
 Graph.prototype.pushNodeByID = function(id) {
-	console.log("Pushing Node:" + id);
-	console.log(this.q);
+	console.log("Pushing Node: " + id);
 	this.q.push(this.getNodeByID(id));
-	//this.getNodeByID(id).data.parent = source;
-}
+}//END pushNodeByID
 
 Graph.prototype.getNodeByID = function(id) {
 	var i, n = this.graph.elements.nodes.length;
@@ -281,9 +180,43 @@ Graph.prototype.getNodeByID = function(id) {
 	}
 }//End getNodeByID
 
-Graph.prototype.renderGraph = function() {
-	this.cy = cytoscape(this.graphs[this.graphID]);
-	
+Graph.prototype.renderGraph = function(graphObject) {
+
+	this.cy = cytoscape(this.initialOptions);
+
+	this.cy.add(graphObject.elements)
+
+	this.cy.style()
+	        .selector('node')
+	          .css({
+	            'content': 'data(id)'
+	          })
+	        .selector('edge')
+	          .css({
+	            'curve-style': 'bezier',
+	            'target-arrow-shape': 'triangle',
+	            'width': 4,
+	            'line-color': '#ddd',
+	            'target-arrow-color': '#ddd'
+	          })
+	        .selector('.highlighted')
+	          .css({
+	            'background-color': '#61bffc',
+	            'line-color': '#61bffc',
+	            'target-arrow-color': '#61bffc',
+	            'transition-property': 'background-color, line-color, target-arrow-color',
+	            'transition-duration': '0.5s'
+        		})
+	        .update();
+
+	this.cy.layout({
+	        name: 'breadthfirst',
+	        directed: true,
+	        roots: '#a',
+	        padding: 10
+      	}).run();
+
+	//Export Graph for BFS Data
 	this.graph = this.cy.json();
 
 	var html = "";
@@ -294,6 +227,7 @@ Graph.prototype.renderGraph = function() {
       html+=id + "<option value=\"" + id + "\">" + id + "</option>";
     }
 
+    //Render the Select Option Elements
     $("select.startSelect").empty();
     $("select.startSelect").append(html);
 
@@ -310,10 +244,10 @@ Graph.prototype.renderQueue = function() {
 
     $("tbody.queue").empty();
     $("tbody.queue").append(html);
-}
+}//END renderQueue
 
 Graph.prototype.renderVisited = function() {
-	console.log("Appending Visited Array...");
+
 	var html = "<tr>"
 
     for(var i=0; i<this.v.length; ++i) {
@@ -334,8 +268,6 @@ Graph.prototype.renderPath = function() {
 	console.log("renderPath");
 	this.found = true;
 
-	console.log(this.currentNode);
-
 	this.path.unshift(this.currentNode.data.id);
 	var html = "";
 
@@ -353,7 +285,11 @@ Graph.prototype.renderPath = function() {
 	console.log(this.path);
 	$(".path").empty();
 	$(".path").append(html);
+}//END renderPath
 
+Graph.prototype.noPath = function() {
+	$(".path").empty();
+	$(".path").append("<p>No Path</p>");
 }
 
 
