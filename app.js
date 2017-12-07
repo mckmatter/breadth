@@ -1,9 +1,15 @@
 /*
+app.js
+
 This is the entry point of the node application
 
 To start the application:
 
 sudo node app.js
+
+This application utilizes NodeJS and ExpressJS
+nodejs.org
+expressjs.com
 
 Dylan McKenna
 Fawaz Albetar
@@ -11,9 +17,11 @@ ENGR4450-A
 Fall 2017
 */
 
-//Require Frameworks and expose Express
+//Import Express and expose
 var express = require('express')
 var app = express()
+
+//Import FileSystem Module
 var fs = require('fs')
 
 //Setup Route to public
