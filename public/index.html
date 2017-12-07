@@ -1,3 +1,15 @@
+<!--
+index.html
+
+This is the main index page of the web application
+
+Dylan McKenna
+Fawaz Albetar
+ENGR4450-A
+Fall 2017
+-->
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,6 +17,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
     <meta name="description" content="Breadth First Search Algorithm Visualization">
     <meta name="author" content="Dylan McKenna and Fawaz Albetar">
     <link rel="icon" href="../../favicon.ico">
@@ -20,7 +33,7 @@
     <!-- Custom styles for this page -->
     <link href="style.css" rel="stylesheet">
 
-    <!-- Get cytoscape ready -->
+    <!-- Get CytoscapeJS ready -->
     <script src="../../js/cytoscape.js"></script>
 
   </head>
@@ -28,6 +41,7 @@
 
   <body>
 
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -53,7 +67,7 @@
       <div class="row header">
         <div class="col-md-12">
           <h1>Breadth First Search Visualization</h1>
-          <p class="lead">Fawaz Alebtar<br>Dylan McKenna<br>ENGR 4450</p>
+          <p class="lead">Fawaz Albetar and Dylan McKenna<br>ENGR 4450 - Robert Morris University</p>
         </div>
       </div>
 
@@ -85,6 +99,7 @@
 
       <!-- Row 3 - Main Content -->
       <div class="row content">
+
         <!-- Queue Array Column -->
         <div class="col-sm-2 col-sm-offset-1">
           <div class="border">
@@ -99,6 +114,7 @@
             </table>
           </div>
         </div>
+
         <!-- Visited Array Column -->
         <div class="col-sm-2 col-sm-offset-1">
           <div class="border">
@@ -117,23 +133,24 @@
         </div>
         <!-- Graph Column -->
         <div class="col-sm-5">
-          <div id="cy"></div>
+          <div id="cy">
+            <!-- CytoscapeJS Appends Graph Here -->
+          </div>
         </div>
       </div>
 
     </div><!-- /.container -->
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Load jQuery -->
+    <script type="text/javascript" src="jquery-3.2.1.js"></script>
 
-   <script type="text/javascript" src="jquery-3.2.1.js"></script>
-
-   <script src="../../dist/js/bootstrap.min.js"></script>
-   
-  <script type="text/javascript" src="graph.js"></script>
-  <script type="text/javascript" src="main.js"></script>
+    <!-- Load Bootstrap CSS -->
+    <script src="../../dist/js/bootstrap.min.js"></script>
+     
+    <!-- Load Custom BFS Algorithm JavaScript -->
+    <script type="text/javascript" src="graph.js"></script>
+    <script type="text/javascript" src="main.js"></script>
 
   </body>
 </html>

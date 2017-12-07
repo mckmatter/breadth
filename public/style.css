@@ -27,6 +27,10 @@ table {
 	margin-top: 15px;
 }
 
+.warn {
+  color: red;
+}
+
 #cy {
   height: 300px;
   width: 100%;

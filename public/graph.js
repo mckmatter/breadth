@@ -1,4 +1,19 @@
+/*
+graph.js
 
+This contains the Graph Class
+referenced by main.js
+
+This file uses open-sourced framework CytoscapeJS
+js.cytoscape.org
+
+Dylan McKenna
+Fawaz Albetar
+ENGR4450-A
+Fall 2017
+*/
+
+//Define Class Graph using JavaScript Function Notation
 function Graph(){
 
 	this.startNodeID = null;
@@ -14,15 +29,16 @@ function Graph(){
 	//Visited and Queue Arrays
 	this.v = [];
 	this.q = [];
+
+	//attributes for use by incrementBFS Function
 	this.currentNode = {};
 	this.currentEdge = {};
 
 	//Cytoscape Object
 	this.cy = {};
 
-	//Graphs array to store unrendered graph objects
+	//Options for initializing Cytoscape Graphs
 	this.initialOptions = {
-
 		container: document.getElementById('cy'),
     	boxSelectionEnabled: false,
     	autounselectify: true,
@@ -30,7 +46,6 @@ function Graph(){
 	    userZoomingEnabled: false,
 	    panningEnabled: true,
 	    userPanningEnabled: false
-
 	};
 
 }//End Graph Class Definition
@@ -44,12 +59,15 @@ Graph.prototype.setEndNode = function(passEndNodeID) {
 	this.endNodeID = passEndNodeID;
 }
 
-//Setup and Start BFS -> Calls incrementBFS
+
+//Setup and Start BFS Algorithm -> Calls incrementBFS
 Graph.prototype.startBFS = function() {
 	
+	console.log("Starting Algorithm...");
+
 	//Setup BFS with loop through nodes array
 	var i, n = this.graph.elements.nodes.length;
-    for(i = 0; i<n; ++i){
+    for(i=0; i<n; ++i){
     	//Set default data within Visited Array
     	//ID(int), Visited(Boolean), orderVisited(int)
     	this.v[i] = [this.graph.elements.nodes[i].data.id, false, 0];
@@ -81,6 +99,7 @@ Graph.prototype.incrementBFS = function(parent) {
 	//Save the algorithm function as a variable for setTimeout
 	var increment = function() {
 
+		
 		var done = false;
 
 		//Pop the first node from the queue and render the queue
@@ -114,10 +133,15 @@ Graph.prototype.incrementBFS = function(parent) {
 				if(parent.currentEdge.data.source == parent.currentNode.data.id) {
 					//The target of the currentEdge is a child of currentNode
 					//Check to see if this childNode has already been visited
-					//If it has not, add it to the queue
 					if(!parent.getVisited()){
+
+						//Push the Child node to the Queue
 						parent.pushNodeByID(parent.currentEdge.data.target);
+
+						//Set the Parent of the child node to the current node
 						parent.getNodeByID(parent.currentEdge.data.target).data.parent = parent.currentNode.data.id;
+
+						//Render the changes to the DOM
 						parent.renderQueue();
 					}
 				}
@@ -276,20 +300,25 @@ Graph.prototype.renderPath = function() {
 		this.path.unshift(this.currentNode.data.id);
 	}
 
+	//String together HTML of Path
 	html+=this.path[0];
-
 	for(var i = 1; i<this.path.length; ++i){
 		html+=" - " + this.path[i];
 	}
 
-	console.log(this.path);
+	//Highlight Path on Graph
+	for(var i = 0; i<this.path.length-1; ++i){
+		var edgeID = this.path[i] + this.path[i+1];
+		this.cy.getElementById(edgeID).addClass('highlighted');
+	}
+
 	$(".path").empty();
 	$(".path").append(html);
 }//END renderPath
 
 Graph.prototype.noPath = function() {
 	$(".path").empty();
-	$(".path").append("<p>No Path</p>");
+	$(".path").append("<p class=\"warn\">No Path</p>");
 }
 
 

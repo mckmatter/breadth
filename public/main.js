@@ -1,8 +1,20 @@
+/*
+main.js
+
+This contains the button listeners and functions
+referenced by JQuery and index.html
+
+Dylan McKenna
+Fawaz Albetar
+ENGR4450-A
+Fall 2017
+*/
+
 $(document).ready(function() {
 	
 	console.log("Document Ready...");
 
-	var graph;
+	var graph = null;
 
 	//Graph 1 Button Listener
 	$("#graph1").on("click", function() {
@@ -50,9 +62,20 @@ $(document).ready(function() {
 	//Start Button Listener
 	$("#start").on("click", function() {
 		this.blur();
-		graph.setStartNode($("select.startSelect").find(":selected").val());
-		graph.setEndNode($("select.endSelect").find(":selected").val());
-		graph.startBFS();
+
+		if(graph==null){
+			$(".path").empty();
+			$(".path").append("<p class=\"warn\">Select a Graph!</p>");
+		}
+		else if(graph.found){
+			$(".path").empty();
+			$(".path").append("<p class=\"warn\">Select a Graph to Reset!</p>");
+		}
+		else {
+			graph.setStartNode($("select.startSelect").find(":selected").val());
+			graph.setEndNode($("select.endSelect").find(":selected").val());
+			graph.startBFS();
+		}
 	})//End Start Button Listener
 
 })

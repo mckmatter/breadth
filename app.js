@@ -3,7 +3,7 @@ This is the entry point of the node application
 
 To start the application:
 
-node app.js
+sudo node app.js
 
 Dylan McKenna
 Fawaz Albetar
@@ -19,7 +19,7 @@ var fs = require('fs')
 //Setup Route to public
 app.use(express.static('public'))
 
-//Create route for graph:id
+//Create route for /graph/:id
 app.get('/graph/:id', function(req, res) {
 	console.log("Recieved Request From " + req.ip + " for Graph " + req.params.id);
 
@@ -29,7 +29,7 @@ app.get('/graph/:id', function(req, res) {
 		//Parse graph.json to JavaScript Object
 		var graph = JSON.parse(contents)
 
-		//Send an element of the graph object to the client
+		//Send an element of the graphs array to the client
 		res.json(graph.graphs[req.params.id])
 	})
 })//END GET /graph/:id
